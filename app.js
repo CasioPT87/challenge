@@ -86,7 +86,7 @@ const prepareApp = (app) => {
       const langs = AVAILABLE_LANGUAGES;
       const fetchRequests = langs.map(async (lang) => {
         const data = await request({ mode: "GET", lang });
-        const languageSports = data?.result?.sports
+        const languageSports = data?.result?.sports;
         return isIterableArray(languageSports) ? languageSports : [];
       });
       const sports = await Promise.all(fetchRequests);

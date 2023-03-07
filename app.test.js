@@ -272,7 +272,7 @@ describe("GET route test", () => {
     it("returns empty object if sports has unexpected format", async () => {
       const responseData = {
         result: {
-          sports: { hey: 'this should be an array'}
+          sports: { hey: "this should be an array" },
         },
       };
 
@@ -371,7 +371,7 @@ describe("GET route test", () => {
     it("returns empty array if fetched data has unexpected format", async () => {
       const responseData = {
         result: {
-          sports: { hey: 'this should be an array'}
+          sports: { hey: "this should be an array" },
         },
       };
       fetch.mockResolvedValue({

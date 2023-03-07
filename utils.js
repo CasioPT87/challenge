@@ -1,4 +1,4 @@
-const { AVAILABLE_LANGUAGES, DATA_SERVER_URL } = require('./constants')
+const { AVAILABLE_LANGUAGES, DATA_SERVER_URL } = require("./constants");
 
 const isIterableArray = (data) => {
   return !!data && Array.isArray(data) && !!data.length;

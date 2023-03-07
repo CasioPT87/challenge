@@ -6,7 +6,8 @@
   "scripts": {
     "start": "NODE_ENV=production node ./index.js",
     "dev": "NODE_ENV=development nodemon ./index.js --watch",
-    "test": "jest"
+    "test": "jest",
+    "prettier": "prettier --write ."
   },
   "author": "sergio ibanez",
   "license": "ISC",

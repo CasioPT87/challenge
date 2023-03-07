@@ -10,8 +10,8 @@ jest.mock("node-fetch");
 
 jest.mock("../logger", (e) => {
   return {
-    error: jest.fn()
-  }
+    error: jest.fn(),
+  };
 });
 
 const port = 5555;
@@ -36,44 +36,47 @@ describe("logErrorMiddleware", () => {
   });
 
   it("calls logger passing error", async () => {
-
     fetch.mockResolvedValue({
       ok: true,
       json: () => {
-        throw new Error('this is a fake error message')
+        throw new Error("this is a fake error message");
       },
     });
-    
+
     await testClient(app).get("/sports");
 
-    expect(logger.error).toHaveBeenCalledWith(new Error('this is a fake error message'))
+    expect(logger.error).toHaveBeenCalledWith(
+      new Error("this is a fake error message")
+    );
   });
 
   it("catches error", async () => {
     fetch.mockResolvedValue({
       ok: true,
       json: () => {
-        throw new Error('this is a fake error message')
+        throw new Error("this is a fake error message");
       },
     });
-    
-    await expect(testClient(app).get("/sports")).resolves.toEqual(expect.anything())
+
+    await expect(testClient(app).get("/sports")).resolves.toEqual(
+      expect.anything()
+    );
   });
 
   it("sends response with right status", async () => {
     fetch.mockResolvedValue({
       ok: true,
       json: () => {
-        throw new Error('this is a fake error message')
+        throw new Error("this is a fake error message");
       },
     });
-    
+
     const response = await testClient(app).get("/sports");
 
     const { body: data } = response;
 
     expect(response.headers["content-type"]).toMatch(/json/);
     expect(response.status).toEqual(500);
-    expect(data).toStrictEqual({ error: 'Error fetching data' })
+    expect(data).toStrictEqual({ error: "Error fetching data" });
   });
 });

@@ -4,7 +4,6 @@ const { getUrl } = require("../../utils");
 
 const request = async ({ method, lang }) => {
   try {
-
     const url = getUrl(lang);
 
     if (cache.has(url)) {
@@ -18,10 +17,7 @@ const request = async ({ method, lang }) => {
       },
     };
 
-    const response = await fetch(
-      url,
-      requestParams
-    );
+    const response = await fetch(url, requestParams);
 
     if (response.ok) {
       const responseData = await response.json();
