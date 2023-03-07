@@ -1,9 +1,14 @@
 const appFetch = require("./index");
 const fetch = require("node-fetch");
+const cache = require('../cache')
 
 jest.mock("node-fetch");
 
 describe("fetch", () => {
+  beforeEach(() => {
+    cache.flushAll()
+  })
+
   it("returns data when response is ok", async () => {
     const response = { test: 'test' }
     fetch.mockResolvedValue({
