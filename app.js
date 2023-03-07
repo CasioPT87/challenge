@@ -3,9 +3,10 @@ const { isIterableArray } = require("./utils");
 const { logErrorMiddleware } = require("./src/middlewares");
 
 const prepareApp = (app) => {
-  app.get("/sports", async (req, res, next) => {
+  app.get("/:lang?/sports", async (req, res, next) => {
     try {
-      const data = await request({ method: "GET" });
+      const lang = req.params.lang
+      const data = await request({ method: "GET", lang });
       const sports = data?.result?.sports;
       if (sports && Array.isArray(sports) && !!sports.length)
         return res.json(sports);
@@ -15,10 +16,10 @@ const prepareApp = (app) => {
     }
   });
 
-  app.get("/sports/:sportId?/events", async (req, res, next) => {
+  app.get("/:lang?/sports/:sportId?/events", async (req, res, next) => {
     try {
-      const data = await request({ mode: "GET" });
-      console.log({ data });
+      const lang = req.params.lang
+      const data = await request({ mode: "GET", lang });
       const sportId = req.params.sportId;
       const sports = data?.result?.sports;
 
