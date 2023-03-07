@@ -31,7 +31,6 @@ const prepareApp = (app) => {
           );
           if (sport) {
             const sportCompetitions = sport?.comp;
-            console.log({ sportCompetitions })
             if (isIterableArray(sportCompetitions)) {
               const sportEvents = sportCompetitions
                 .map((comp) => comp.events)
@@ -69,7 +68,7 @@ const prepareApp = (app) => {
         if (isIterableArray(allCompetitions)) {
             const allEvents = allCompetitions.map(comp => comp.events).flat()
             if (isIterableArray(allEvents)) {
-                console.log({ eventId })
+
                 const event = allEvents.find(event => String(event.id) === String(eventId))
                 return res.json(event)
             }

@@ -27,4 +27,18 @@ describe("fetch", () => {
     });
     await expect(appFetch({ method: 'GET' })).rejects.toStrictEqual(new Error('Error fetching data'));
   });
+
+  it("catches response for url", async () => {
+    const responseData = { data: 'my-data' }
+    fetch.mockResolvedValue({
+      ok: true,
+      json: () => responseData
+    });
+    const dataFirsCall = await appFetch({ method: 'GET', lang: 'de' })
+    const dataSecondCall = await appFetch({ method: 'GET', lang: 'de' })
+
+    expect(fetch).toHaveBeenCalledTimes(1)
+    expect(dataFirsCall).toStrictEqual(dataSecondCall)
+    expect(dataFirsCall).toStrictEqual(responseData)
+  });
 });

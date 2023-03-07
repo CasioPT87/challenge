@@ -272,4 +272,15 @@ describe("GET route test", () => {
       );
     });
   });
+
+  describe("route not present", () => {
+    it("returns json indicating error and 404 status", async () => {
+      const response = await testClient(app).get("/this-path-is-not-present");
+      const { body: data } = response;
+
+      expect(response.headers["content-type"]).toMatch(/json/);
+      expect(response.status).toEqual(404);
+      expect(data).toStrictEqual({ error: "Route not found" });
+    });
+  });
 });
