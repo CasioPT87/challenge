@@ -133,13 +133,18 @@ describe("GET route test", () => {
           sports: [
             {
               id: 222,
-              comp: [{ events: [{ id: 528, data: 'event-528' }] }],
+              comp: [{ events: [{ id: 528, data: "event-528" }] }],
             },
             {
               id: 444,
               comp: [
-                { events: [{ id: 154, data: 'event-154' }, { id: 214, data: 'event-214' }] },
-                { events: [{ id: 668, data: 'event-668' }] },
+                {
+                  events: [
+                    { id: 154, data: "event-154" },
+                    { id: 214, data: "event-214" },
+                  ],
+                },
+                { events: [{ id: 668, data: "event-668" }] },
               ],
             },
           ],
@@ -156,7 +161,64 @@ describe("GET route test", () => {
 
       expect(response.headers["content-type"]).toMatch(/json/);
       expect(response.status).toEqual(200);
-      expect(data).toStrictEqual({ id: 214, data: 'event-214' })
+      expect(data).toStrictEqual({ id: 214, data: "event-214" });
+    });
+  });
+
+  describe("multilanguage sports", () => {
+    it("returns sports in all available languages", async () => {
+      const sportsEnglish =  ["my sport in english"]
+      const sportsGerman =  ["my sport in german"]
+      const sportsChinese =  ["my sport in chinese"]
+
+      const fetchMockData = {
+        english: {
+          url: "https://partners.betvictor.mobi/en-gb/in-play/1/events",
+          data: {
+            result: {
+              sports: sportsEnglish,
+            },
+          },
+        },
+        german: {
+          url: "https://partners.betvictor.mobi/de/in-play/1/events",
+          data: {
+            result: {
+              sports: sportsGerman,
+            },
+          },
+        },
+        chinese: {
+          url: "https://partners.betvictor.mobi/zh/in-play/1/events",
+          data: {
+            result: {
+              sports: sportsChinese
+            },
+          },
+        },
+      };
+
+      fetch.mockImplementation((url) => ({
+        ok: true,
+        json: () => {
+          switch (url) {
+            case fetchMockData.english.url:
+              return fetchMockData.english.data;
+            case fetchMockData.german.url:
+              return fetchMockData.german.data;
+            case fetchMockData.chinese.url:
+              return fetchMockData.chinese.data;
+            default:
+              return fetchMockData.english.data;
+          }
+        },
+      }));
+
+      const response = await testClient(app).get("/sports/multilanguage");
+      const { body: data } = response;
+      expect(response.headers["content-type"]).toMatch(/json/);
+      expect(response.status).toEqual(200);
+      expect(data).toEqual(expect.arrayContaining([...sportsEnglish, ...sportsGerman, ...sportsChinese]));
     });
   });
 });
