@@ -1,25 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1678181084715" clover="3.2.0">
-  <project timestamp="1678181084716" name="All files">
-    <metrics statements="16" coveredstatements="15" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1" elements="19" coveredelements="18" complexity="0" loc="16" ncloc="16" packages="1" files="1" classes="1"/>
-    <file name="app.js" path="/home/sergio/Projects/betvictor/app.js">
+<coverage generated="1678183978482" clover="3.2.0">
+  <project timestamp="1678183978483" name="All files">
+    <metrics statements="41" coveredstatements="40" conditionals="5" coveredconditionals="5" methods="2" coveredmethods="2" elements="48" coveredelements="47" complexity="0" loc="41" ncloc="41" packages="2" files="2" classes="2"/>
+    <package name="betvictor">
       <metrics statements="16" coveredstatements="15" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-      <line num="1" count="1" type="cond" truecount="1" falsecount="0"/>
-      <line num="2" count="1" type="stmt"/>
-      <line num="3" count="1" type="cond" truecount="1" falsecount="0"/>
-      <line num="4" count="1" type="stmt"/>
-      <line num="5" count="1" type="stmt"/>
-      <line num="6" count="1" type="stmt"/>
-      <line num="7" count="1" type="stmt"/>
-      <line num="8" count="0" type="stmt"/>
-      <line num="9" count="1" type="stmt"/>
-      <line num="10" count="1" type="stmt"/>
-      <line num="11" count="1" type="stmt"/>
-      <line num="12" count="1" type="stmt"/>
-      <line num="13" count="1" type="stmt"/>
-      <line num="14" count="1" type="stmt"/>
-      <line num="15" count="1" type="stmt"/>
-      <line num="16" count="1" type="stmt"/>
-    </file>
+      <file name="app.js" path="/home/sergio/Projects/betvictor/app.js">
+        <metrics statements="16" coveredstatements="15" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="betvictor.src.request">
+      <metrics statements="25" coveredstatements="25" conditionals="3" coveredconditionals="3" methods="1" coveredmethods="1"/>
+      <file name="index.js" path="/home/sergio/Projects/betvictor/src/request/index.js">
+        <metrics statements="25" coveredstatements="25" conditionals="3" coveredconditionals="3" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="15" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+      </file>
+    </package>
   </project>
 </coverage>
