@@ -30,10 +30,14 @@ describe("GET route test", () => {
   });
 
   describe("all sports", () => {
-    it("return sports", async () => {
+    it("returns sports sorted by pos", async () => {
       const responseData = {
         result: {
-          sports: ["my sport"],
+          sports: [
+            { pos: 347, value: "my sport" },
+            { pos: 589, value: "your sport" },
+            { pos: 21, value: "our sport" },
+          ],
         },
       };
 
@@ -47,7 +51,11 @@ describe("GET route test", () => {
 
       expect(response.headers["content-type"]).toMatch(/json/);
       expect(response.status).toEqual(200);
-      expect(data).toStrictEqual(["my sport"]);
+      expect(data).toStrictEqual([
+        { pos: 21, value: "our sport" },
+        { pos: 347, value: "my sport" },
+        { pos: 589, value: "your sport" },
+      ]);
     });
 
     it("return empty array if fetched data has unexpected format", async () => {
@@ -88,25 +96,30 @@ describe("GET route test", () => {
   });
 
   describe("events by (optional) sportId", () => {
-    it("returns sports's events when sportId is a param", async () => {
-      const responseData = {
-        result: {
-          sports: [
-            {
-              id: 222,
-              comp: [{ events: ["first-event"] }],
-            },
-            {
-              id: 444,
-              comp: [
-                { events: ["second-event", "third-event"] },
-                { events: ["fourth-event"] },
-              ],
-            },
-          ],
-        },
-      };
+    const responseData = {
+      result: {
+        sports: [
+          {
+            id: 222,
+            comp: [{ events: [{ pos: 456, value: "first-event" }] }],
+          },
+          {
+            id: 444,
+            comp: [
+              {
+                events: [
+                  { pos: 854, value: "second-event" },
+                  { pos: 947, value: "third-event" },
+                ],
+              },
+              { events: [{ pos: 245, value: "fourth-event" }] },
+            ],
+          },
+        ],
+      },
+    };
 
+    it("returns sports's events (sorted by 'pos') when sportId is a param", async () => {
       fetch.mockResolvedValue({
         ok: true,
         json: () => responseData,
@@ -117,31 +130,15 @@ describe("GET route test", () => {
 
       expect(response.headers["content-type"]).toMatch(/json/);
       expect(response.status).toEqual(200);
-      expect(data).toEqual(
-        expect.arrayContaining(["second-event", "third-event", "fourth-event"])
-      );
+      expect(data).toStrictEqual([
+        { pos: 245, value: "fourth-event" },
+        { pos: 854, value: "second-event" },
+        { pos: 947, value: "third-event" },
+      ]);
       expect(data).toEqual(expect.not.arrayContaining(["first-event"]));
     });
 
-    it("returns all events when sportId is NOT a param", async () => {
-      const responseData = {
-        result: {
-          sports: [
-            {
-              id: 222,
-              comp: [{ events: ["first-event"] }],
-            },
-            {
-              id: 444,
-              comp: [
-                { events: ["second-event", "third-event"] },
-                { events: ["fourth-event"] },
-              ],
-            },
-          ],
-        },
-      };
-
+    it("returns all events (sorted by 'pos') when sportId is NOT a param", async () => {
       fetch.mockResolvedValue({
         ok: true,
         json: () => responseData,
@@ -152,14 +149,12 @@ describe("GET route test", () => {
 
       expect(response.headers["content-type"]).toMatch(/json/);
       expect(response.status).toEqual(200);
-      expect(data).toEqual(
-        expect.arrayContaining([
-          "first-event",
-          "second-event",
-          "third-event",
-          "fourth-event",
-        ])
-      );
+      expect(data).toStrictEqual([
+        { pos: 245, value: "fourth-event" },
+        { pos: 456, value: "first-event" },
+        { pos: 854, value: "second-event" },
+        { pos: 947, value: "third-event" },
+      ]);
     });
 
     it("(sportId defined) returns empty array if fetched data has unexpected format", async () => {
@@ -238,18 +233,18 @@ describe("GET route test", () => {
           sports: [
             {
               id: 222,
-              comp: [{ events: [{ id: 528, data: "event-528" }] }],
+              comp: [{ events: [{ id: 528, data: "event-528", pos: 429 }] }],
             },
             {
               id: 444,
               comp: [
                 {
                   events: [
-                    { id: 154, data: "event-154" },
-                    { id: 214, data: "event-214" },
+                    { id: 154, data: "event-154", pos: 25 },
+                    { id: 214, data: "event-214", pos: 748 },
                   ],
                 },
-                { events: [{ id: 668, data: "event-668" }] },
+                { events: [{ id: 668, data: "event-668", pos: 145 }] },
               ],
             },
           ],
@@ -266,7 +261,7 @@ describe("GET route test", () => {
 
       expect(response.headers["content-type"]).toMatch(/json/);
       expect(response.status).toEqual(200);
-      expect(data).toStrictEqual({ id: 214, data: "event-214" });
+      expect(data).toStrictEqual({ id: 214, data: "event-214", pos: 748 });
     });
 
     it("returns empty object if sports has unexpected format", async () => {
@@ -308,9 +303,9 @@ describe("GET route test", () => {
 
   describe("multilanguage sports", () => {
     it("returns sports in all available languages", async () => {
-      const sportsEnglish = ["my sport in english"];
-      const sportsGerman = ["my sport in german"];
-      const sportsChinese = ["my sport in chinese"];
+      const sportsEnglish = [{ pos: 548, value: "my sport in english" }];
+      const sportsGerman = [{ pos: 248, value: "my sport in german" }];
+      const sportsChinese = [{ pos: 532, value: "my sport in chinese" }];
 
       const fetchMockData = {
         english: {
@@ -359,13 +354,11 @@ describe("GET route test", () => {
       const { body: data } = response;
       expect(response.headers["content-type"]).toMatch(/json/);
       expect(response.status).toEqual(200);
-      expect(data).toEqual(
-        expect.arrayContaining([
-          ...sportsEnglish,
-          ...sportsGerman,
-          ...sportsChinese,
-        ])
-      );
+      expect(data).toStrictEqual([
+        ...sportsGerman,
+        ...sportsChinese,
+        ...sportsEnglish,
+      ]);
     });
 
     it("returns empty array if fetched data has unexpected format", async () => {

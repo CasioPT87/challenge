@@ -1,5 +1,5 @@
 const request = require("./src/request");
-const { isIterableArray } = require("./utils");
+const { isIterableArray, sortItemsByPos } = require("./utils");
 const { logErrorMiddleware } = require("./src/middlewares");
 const { AVAILABLE_LANGUAGES } = require("./constants");
 
@@ -9,8 +9,10 @@ const prepareApp = (app) => {
       const lang = req.params.lang;
       const data = await request({ method: "GET", lang });
       const sports = data?.result?.sports;
-      if (sports && Array.isArray(sports) && !!sports.length)
-        return res.json(sports);
+      if (sports && Array.isArray(sports) && !!sports.length) {
+        const sortedSports = sortItemsByPos(sports)
+        return res.json(sortedSports);
+      }  
       return res.json([]);
     } catch (e) {
       next(e);
@@ -35,7 +37,8 @@ const prepareApp = (app) => {
               const sportEvents = sportCompetitions
                 .map((comp) => comp.events)
                 .flat();
-              return res.json(sportEvents);
+              const sortedSportEvents = sortItemsByPos(sportEvents)
+              return res.json(sortedSportEvents);
             }
           }
         }
@@ -46,7 +49,8 @@ const prepareApp = (app) => {
         const allCompetitions = sports.map((sport) => sport.comp).flat();
         if (isIterableArray(allCompetitions)) {
           const allEvents = allCompetitions.map((comp) => comp.events).flat();
-          return res.json(allEvents);
+          const sortedAllEvents = sortItemsByPos(allEvents)
+          return res.json(sortedAllEvents);
         }
       }
       return res.json([]);
@@ -90,7 +94,8 @@ const prepareApp = (app) => {
         return isIterableArray(languageSports) ? languageSports : [];
       });
       const sports = await Promise.all(fetchRequests);
-      return res.json(sports.flat());
+      const sortedSports = sortItemsByPos(sports.flat())
+      return res.json(sortedSports);
     } catch (e) {
       next(e);
     }

@@ -11,7 +11,13 @@ const getUrl = (lang) => {
   return DATA_SERVER_URL.replace("language", _lang);
 };
 
+const sortItemsByPos = (items) => {
+  if (isIterableArray(items) && items.length > 1) return items.sort((a,b) => a.pos - b.pos);
+  return items
+}
+
 module.exports = {
   isIterableArray,
   getUrl,
+  sortItemsByPos
 };
