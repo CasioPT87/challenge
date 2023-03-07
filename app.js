@@ -3,7 +3,7 @@ const { isIterableArray } = require("./utils");
 const { logErrorMiddleware } = require("./src/middlewares");
 
 const prepareApp = (app) => {
-  app.get("/", async (req, res, next) => {
+  app.get("/sports", async (req, res, next) => {
     try {
       const data = await request({ method: "GET" });
       const sports = data?.result?.sports;

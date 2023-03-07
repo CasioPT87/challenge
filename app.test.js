@@ -40,7 +40,7 @@ describe("GET route test", () => {
         ok: true,
         json: () => responseData,
       });
-      const response = await testClient(app).get("/");
+      const response = await testClient(app).get("/sports");
 
       const { body: data } = response;
 

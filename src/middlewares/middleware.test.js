@@ -44,7 +44,7 @@ describe("logErrorMiddleware", () => {
       },
     });
     
-    await testClient(app).get("/");
+    await testClient(app).get("/sports");
 
     expect(logger.error).toHaveBeenCalledWith(new Error('this is a fake error message'))
   });
@@ -57,7 +57,7 @@ describe("logErrorMiddleware", () => {
       },
     });
     
-    await expect(testClient(app).get("/")).resolves.toEqual(expect.anything())
+    await expect(testClient(app).get("/sports")).resolves.toEqual(expect.anything())
   });
 
   it("sends response with right status", async () => {
@@ -68,7 +68,7 @@ describe("logErrorMiddleware", () => {
       },
     });
     
-    const response = await testClient(app).get("/");
+    const response = await testClient(app).get("/sports");
 
     const { body: data } = response;
 
