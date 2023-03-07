@@ -125,4 +125,38 @@ describe("GET route test", () => {
       );
     });
   });
+
+  describe("events", () => {
+    it("returns event data by given eventId", async () => {
+      const responseData = {
+        result: {
+          sports: [
+            {
+              id: 222,
+              comp: [{ events: [{ id: 528, data: 'event-528' }] }],
+            },
+            {
+              id: 444,
+              comp: [
+                { events: [{ id: 154, data: 'event-154' }, { id: 214, data: 'event-214' }] },
+                { events: [{ id: 668, data: 'event-668' }] },
+              ],
+            },
+          ],
+        },
+      };
+
+      fetch.mockResolvedValue({
+        ok: true,
+        json: () => responseData,
+      });
+
+      const response = await testClient(app).get("/events/214");
+      const { body: data } = response;
+
+      expect(response.headers["content-type"]).toMatch(/json/);
+      expect(response.status).toEqual(200);
+      expect(data).toStrictEqual({ id: 214, data: 'event-214' })
+    });
+  });
 });

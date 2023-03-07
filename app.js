@@ -55,6 +55,34 @@ const prepareApp = (app) => {
     }
   });
 
+  app.get("/:lang?/events/:eventId", async (req, res, next) => {
+    try {
+      const lang = req.params.lang
+      const data = await request({ mode: "GET", lang });
+      const sports = data?.result?.sports
+      console.log({ sports })
+      const eventId = req.params.eventId
+    
+      if (isIterableArray(sports)) {
+        const allCompetitions = sports.map(sport => sport.comp).flat()
+        console.log({ allCompetitions })
+        if (isIterableArray(allCompetitions)) {
+            const allEvents = allCompetitions.map(comp => comp.events).flat()
+            console.log({ allEvents })
+            if (isIterableArray(allEvents)) {
+                console.log({ eventId })
+                const event = allEvents.find(event => String(event.id) === String(eventId))
+                return res.json(event)
+            }
+        }
+      }
+      
+      return res.json({})
+    } catch (e) {
+      next(e);
+    } 
+  });
+
   app.use(logErrorMiddleware);
 
   app.use((req, res) => {
