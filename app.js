@@ -10,9 +10,9 @@ const prepareApp = (app) => {
       const data = await request({ method: "GET", lang });
       const sports = data?.result?.sports;
       if (sports && Array.isArray(sports) && !!sports.length) {
-        const sortedSports = sortItemsByPos(sports)
+        const sortedSports = sortItemsByPos(sports);
         return res.json(sortedSports);
-      }  
+      }
       return res.json([]);
     } catch (e) {
       next(e);
@@ -37,7 +37,7 @@ const prepareApp = (app) => {
               const sportEvents = sportCompetitions
                 .map((comp) => comp.events)
                 .flat();
-              const sortedSportEvents = sortItemsByPos(sportEvents)
+              const sortedSportEvents = sortItemsByPos(sportEvents);
               return res.json(sortedSportEvents);
             }
           }
@@ -49,7 +49,7 @@ const prepareApp = (app) => {
         const allCompetitions = sports.map((sport) => sport.comp).flat();
         if (isIterableArray(allCompetitions)) {
           const allEvents = allCompetitions.map((comp) => comp.events).flat();
-          const sortedAllEvents = sortItemsByPos(allEvents)
+          const sortedAllEvents = sortItemsByPos(allEvents);
           return res.json(sortedAllEvents);
         }
       }
@@ -94,7 +94,7 @@ const prepareApp = (app) => {
         return isIterableArray(languageSports) ? languageSports : [];
       });
       const sports = await Promise.all(fetchRequests);
-      const sortedSports = sortItemsByPos(sports.flat())
+      const sortedSports = sortItemsByPos(sports.flat());
       return res.json(sortedSports);
     } catch (e) {
       next(e);
