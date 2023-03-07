@@ -80,51 +80,49 @@ describe("GET route test", () => {
 
       expect(response.headers["content-type"]).toMatch(/json/);
       expect(response.status).toEqual(200);
-      expect(data).toEqual(expect.arrayContaining([
-        "second-event",
-        "third-event",
-        "fourth-event",
-      ]));
-      expect(data).toEqual(expect.not.arrayContaining([
-        "first-event"
-      ]));
+      expect(data).toEqual(
+        expect.arrayContaining(["second-event", "third-event", "fourth-event"])
+      );
+      expect(data).toEqual(expect.not.arrayContaining(["first-event"]));
     });
 
     it("returns all events when sportId is NOT a param", async () => {
-        const responseData = {
-          result: {
-            sports: [
-              {
-                id: 222,
-                comp: [{ events: ["first-event"] }],
-              },
-              {
-                id: 444,
-                comp: [
-                  { events: ["second-event", "third-event"] },
-                  { events: ["fourth-event"] },
-                ],
-              },
-            ],
-          },
-        };
-  
-        fetch.mockResolvedValue({
-          ok: true,
-          json: () => responseData,
-        });
-        const response = await testClient(app).get("/sports/events");
-  
-        const { body: data } = response;
-  
-        expect(response.headers["content-type"]).toMatch(/json/);
-        expect(response.status).toEqual(200);
-        expect(data).toEqual(expect.arrayContaining([
-            "first-event",
+      const responseData = {
+        result: {
+          sports: [
+            {
+              id: 222,
+              comp: [{ events: ["first-event"] }],
+            },
+            {
+              id: 444,
+              comp: [
+                { events: ["second-event", "third-event"] },
+                { events: ["fourth-event"] },
+              ],
+            },
+          ],
+        },
+      };
+
+      fetch.mockResolvedValue({
+        ok: true,
+        json: () => responseData,
+      });
+      const response = await testClient(app).get("/sports/events");
+
+      const { body: data } = response;
+
+      expect(response.headers["content-type"]).toMatch(/json/);
+      expect(response.status).toEqual(200);
+      expect(data).toEqual(
+        expect.arrayContaining([
+          "first-event",
           "second-event",
           "third-event",
           "fourth-event",
-        ]));
-      });
+        ])
+      );
+    });
   });
 });
