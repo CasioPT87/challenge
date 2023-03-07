@@ -4,6 +4,7 @@ const { createHttpTerminator } = require("http-terminator");
 const { prepareApp } = require("./app");
 const cache = require("./src/cache");
 const fetch = require("node-fetch");
+const middlewares = require("./src/middlewares");
 
 jest.mock("node-fetch");
 
@@ -67,6 +68,22 @@ describe("GET route test", () => {
       expect(response.headers["content-type"]).toMatch(/json/);
       expect(response.status).toEqual(200);
       expect(data).toEqual(expect.arrayContaining([]));
+    });
+
+    it("catches error and sends it to middleware to handle it", async () => {
+      fetch.mockResolvedValue({
+        ok: true,
+        json: () => {
+          throw new Error("something went terribly wrong");
+        },
+      });
+      const response = await testClient(app).get("/sports");
+
+      const { body: data } = response;
+
+      expect(response.headers["content-type"]).toMatch(/json/);
+      expect(response.status).toEqual(500);
+      expect(data).toStrictEqual({ error: "Error fetching data" });
     });
   });
 
@@ -152,7 +169,7 @@ describe("GET route test", () => {
             {
               id: 222,
               comp: { events: ["first-event"] }, // this should be an array
-            }
+            },
           ],
         },
       };
@@ -168,6 +185,49 @@ describe("GET route test", () => {
       expect(response.headers["content-type"]).toMatch(/json/);
       expect(response.status).toEqual(200);
       expect(data).toEqual(expect.arrayContaining([]));
+    });
+
+    it("(sportId NOT defined) returns empty array if fetched data has unexpected format", async () => {
+      const responseData = {
+        result: {
+          other: {
+            sports: [
+              {
+                id: 222,
+                comp: { events: ["first-event"] }, // this should be an array
+              },
+            ],
+          },
+        },
+      };
+
+      fetch.mockResolvedValue({
+        ok: true,
+        json: () => responseData,
+      });
+      const response = await testClient(app).get("/sports/events");
+
+      const { body: data } = response;
+
+      expect(response.headers["content-type"]).toMatch(/json/);
+      expect(response.status).toEqual(200);
+      expect(data).toEqual(expect.arrayContaining([]));
+    });
+
+    it("catches error and sends it to middleware to handle it", async () => {
+      fetch.mockResolvedValue({
+        ok: true,
+        json: () => {
+          throw new Error("something went terribly wrong");
+        },
+      });
+      const response = await testClient(app).get("/sports/222/events");
+
+      const { body: data } = response;
+
+      expect(response.headers["content-type"]).toMatch(/json/);
+      expect(response.status).toEqual(500);
+      expect(data).toStrictEqual({ error: "Error fetching data" });
     });
   });
 
@@ -207,6 +267,42 @@ describe("GET route test", () => {
       expect(response.headers["content-type"]).toMatch(/json/);
       expect(response.status).toEqual(200);
       expect(data).toStrictEqual({ id: 214, data: "event-214" });
+    });
+
+    it("returns empty object if sports has unexpected format", async () => {
+      const responseData = {
+        result: {
+          sports: { hey: 'this should be an array'}
+        },
+      };
+
+      fetch.mockResolvedValue({
+        ok: true,
+        json: () => responseData,
+      });
+
+      const response = await testClient(app).get("/events/214");
+      const { body: data } = response;
+
+      expect(response.headers["content-type"]).toMatch(/json/);
+      expect(response.status).toEqual(200);
+      expect(data).toStrictEqual({});
+    });
+
+    it("catches error and sends it to middleware to handle it", async () => {
+      fetch.mockResolvedValue({
+        ok: true,
+        json: () => {
+          throw new Error("something went terribly wrong");
+        },
+      });
+      const response = await testClient(app).get("/events/214");
+
+      const { body: data } = response;
+
+      expect(response.headers["content-type"]).toMatch(/json/);
+      expect(response.status).toEqual(500);
+      expect(data).toStrictEqual({ error: "Error fetching data" });
     });
   });
 
@@ -270,6 +366,41 @@ describe("GET route test", () => {
           ...sportsChinese,
         ])
       );
+    });
+
+    it("returns empty array if fetched data has unexpected format", async () => {
+      const responseData = {
+        result: {
+          sports: { hey: 'this should be an array'}
+        },
+      };
+      fetch.mockResolvedValue({
+        ok: true,
+        json: () => responseData,
+      });
+      const response = await testClient(app).get("/sports/multilanguage");
+
+      const { body: data } = response;
+
+      expect(response.headers["content-type"]).toMatch(/json/);
+      expect(response.status).toEqual(200);
+      expect(data).toEqual(expect.arrayContaining([]));
+    });
+
+    it("catches error and sends it to middleware to handle it", async () => {
+      fetch.mockResolvedValue({
+        ok: true,
+        json: () => {
+          throw new Error("something went terribly wrong");
+        },
+      });
+      const response = await testClient(app).get("/sports/multilanguage");
+
+      const { body: data } = response;
+
+      expect(response.headers["content-type"]).toMatch(/json/);
+      expect(response.status).toEqual(500);
+      expect(data).toStrictEqual({ error: "Error fetching data" });
     });
   });
 
