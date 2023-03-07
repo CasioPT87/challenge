@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1678208345573" clover="3.2.0">
-  <project timestamp="1678208345574" name="All files">
-    <metrics statements="230" coveredstatements="229" conditionals="52" coveredconditionals="50" methods="6" coveredmethods="6" elements="288" coveredelements="285" complexity="0" loc="230" ncloc="230" packages="6" files="7" classes="7"/>
+<coverage generated="1678209132518" clover="3.2.0">
+  <project timestamp="1678209132519" name="All files">
+    <metrics statements="233" coveredstatements="232" conditionals="54" coveredconditionals="50" methods="6" coveredmethods="6" elements="293" coveredelements="288" complexity="0" loc="233" ncloc="233" packages="6" files="7" classes="7"/>
     <package name="betvictor">
-      <metrics statements="138" coveredstatements="138" conditionals="41" coveredconditionals="41" methods="4" coveredmethods="4"/>
+      <metrics statements="141" coveredstatements="141" conditionals="43" coveredconditionals="41" methods="4" coveredmethods="4"/>
       <file name="app.js" path="/home/sergio/Projects/betvictor/app.js">
         <metrics statements="115" coveredstatements="115" conditionals="31" coveredconditionals="31" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
@@ -123,7 +123,7 @@
         <line num="115" count="1" type="stmt"/>
       </file>
       <file name="utils.js" path="/home/sergio/Projects/betvictor/utils.js">
-        <metrics statements="23" coveredstatements="23" conditionals="10" coveredconditionals="10" methods="3" coveredmethods="3"/>
+        <metrics statements="26" coveredstatements="26" conditionals="12" coveredconditionals="10" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="cond" truecount="1" falsecount="0"/>
@@ -138,15 +138,18 @@
         <line num="12" count="27" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
         <line num="14" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="15" count="5" type="cond" truecount="4" falsecount="0"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
+        <line num="15" count="5" type="cond" truecount="1" falsecount="0"/>
+        <line num="16" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="17" count="15" type="cond" truecount="0" falsecount="2"/>
+        <line num="18" count="4" type="cond" truecount="1" falsecount="0"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
         <line num="21" count="1" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
       </file>
     </package>
     <package name="betvictor.constants">

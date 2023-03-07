@@ -52,9 +52,9 @@ describe("GET route test", () => {
       expect(response.headers["content-type"]).toMatch(/json/);
       expect(response.status).toEqual(200);
       expect(data).toStrictEqual([
-        { pos: 21, value: "our sport" },
-        { pos: 347, value: "my sport" },
         { pos: 589, value: "your sport" },
+        { pos: 347, value: "my sport" },
+        { pos: 21, value: "our sport" },
       ]);
     });
 
@@ -131,9 +131,9 @@ describe("GET route test", () => {
       expect(response.headers["content-type"]).toMatch(/json/);
       expect(response.status).toEqual(200);
       expect(data).toStrictEqual([
-        { pos: 245, value: "fourth-event" },
-        { pos: 854, value: "second-event" },
         { pos: 947, value: "third-event" },
+        { pos: 854, value: "second-event" },
+        { pos: 245, value: "fourth-event" },
       ]);
       expect(data).toEqual(expect.not.arrayContaining(["first-event"]));
     });
@@ -150,10 +150,10 @@ describe("GET route test", () => {
       expect(response.headers["content-type"]).toMatch(/json/);
       expect(response.status).toEqual(200);
       expect(data).toStrictEqual([
-        { pos: 245, value: "fourth-event" },
-        { pos: 456, value: "first-event" },
-        { pos: 854, value: "second-event" },
         { pos: 947, value: "third-event" },
+        { pos: 854, value: "second-event" },
+        { pos: 456, value: "first-event" },
+        { pos: 245, value: "fourth-event" },
       ]);
     });
 
@@ -302,7 +302,7 @@ describe("GET route test", () => {
   });
 
   describe("multilanguage sports", () => {
-    it("returns sports in all available languages", async () => {
+    it("returns sports in all available languages (sorted by 'pos')", async () => {
       const sportsEnglish = [{ pos: 548, value: "my sport in english" }];
       const sportsGerman = [{ pos: 248, value: "my sport in german" }];
       const sportsChinese = [{ pos: 532, value: "my sport in chinese" }];
@@ -355,9 +355,9 @@ describe("GET route test", () => {
       expect(response.headers["content-type"]).toMatch(/json/);
       expect(response.status).toEqual(200);
       expect(data).toStrictEqual([
-        ...sportsGerman,
-        ...sportsChinese,
         ...sportsEnglish,
+        ...sportsChinese,
+        ...sportsGerman,
       ]);
     });
 

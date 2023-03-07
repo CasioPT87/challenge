@@ -12,12 +12,15 @@ const getUrl = (lang) => {
 };
 
 const sortItemsByPos = (items) => {
-  if (isIterableArray(items) && items.length > 1) return items.sort((a,b) => a.pos - b.pos);
-  return items
-}
+  if (isIterableArray(items) && items.length > 1)
+    return items.sort((a, b) => {
+      return (b.pos || 0) - (a.pos || 0)
+  });
+  return items;
+};
 
 module.exports = {
   isIterableArray,
   getUrl,
-  sortItemsByPos
+  sortItemsByPos,
 };
