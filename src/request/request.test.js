@@ -15,7 +15,7 @@ describe("fetch", () => {
       ok: true,
       json: () => response,
     });
-    const data = await appFetch();
+    const data = await appFetch({ method: 'GET' });
     expect(data).toStrictEqual(response);
   });
 
@@ -25,6 +25,6 @@ describe("fetch", () => {
       ok: false,
       json: () => response,
     });
-    await expect(appFetch()).rejects.toStrictEqual(new Error('Error fetching data'));
+    await expect(appFetch({ method: 'GET' })).rejects.toStrictEqual(new Error('Error fetching data'));
   });
 });

@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 const cache = require('../cache')
 
-const request = async () => {
+const request = async ({ method }) => {
   try {
 
     if (cache.has('source')) {
@@ -9,7 +9,7 @@ const request = async () => {
       }
 
     const requestParams = {
-      method: 'GET',
+      method,
       headers: {
         Accept: "*/*",
       },
