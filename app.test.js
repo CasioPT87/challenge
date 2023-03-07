@@ -48,6 +48,26 @@ describe("GET route test", () => {
       expect(response.status).toEqual(200);
       expect(data).toStrictEqual(["my sport"]);
     });
+
+    it("return empty array if fetched data has unexpected format", async () => {
+      const responseData = {
+        result: {
+          sports: { "my sport": "this should be an array" },
+        },
+      };
+
+      fetch.mockResolvedValue({
+        ok: true,
+        json: () => responseData,
+      });
+      const response = await testClient(app).get("/sports");
+
+      const { body: data } = response;
+
+      expect(response.headers["content-type"]).toMatch(/json/);
+      expect(response.status).toEqual(200);
+      expect(data).toEqual(expect.arrayContaining([]));
+    });
   });
 
   describe("events by (optional) sportId", () => {
@@ -124,6 +144,31 @@ describe("GET route test", () => {
         ])
       );
     });
+
+    it("(sportId defined) returns empty array if fetched data has unexpected format", async () => {
+      const responseData = {
+        result: {
+          sports: [
+            {
+              id: 222,
+              comp: { events: ["first-event"] }, // this should be an array
+            }
+          ],
+        },
+      };
+
+      fetch.mockResolvedValue({
+        ok: true,
+        json: () => responseData,
+      });
+      const response = await testClient(app).get("/sports/222/events");
+
+      const { body: data } = response;
+
+      expect(response.headers["content-type"]).toMatch(/json/);
+      expect(response.status).toEqual(200);
+      expect(data).toEqual(expect.arrayContaining([]));
+    });
   });
 
   describe("events", () => {
@@ -167,9 +212,9 @@ describe("GET route test", () => {
 
   describe("multilanguage sports", () => {
     it("returns sports in all available languages", async () => {
-      const sportsEnglish =  ["my sport in english"]
-      const sportsGerman =  ["my sport in german"]
-      const sportsChinese =  ["my sport in chinese"]
+      const sportsEnglish = ["my sport in english"];
+      const sportsGerman = ["my sport in german"];
+      const sportsChinese = ["my sport in chinese"];
 
       const fetchMockData = {
         english: {
@@ -192,7 +237,7 @@ describe("GET route test", () => {
           url: "https://partners.betvictor.mobi/zh/in-play/1/events",
           data: {
             result: {
-              sports: sportsChinese
+              sports: sportsChinese,
             },
           },
         },
@@ -218,7 +263,13 @@ describe("GET route test", () => {
       const { body: data } = response;
       expect(response.headers["content-type"]).toMatch(/json/);
       expect(response.status).toEqual(200);
-      expect(data).toEqual(expect.arrayContaining([...sportsEnglish, ...sportsGerman, ...sportsChinese]));
+      expect(data).toEqual(
+        expect.arrayContaining([
+          ...sportsEnglish,
+          ...sportsGerman,
+          ...sportsChinese,
+        ])
+      );
     });
   });
 });

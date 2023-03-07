@@ -31,6 +31,7 @@ const prepareApp = (app) => {
           );
           if (sport) {
             const sportCompetitions = sport?.comp;
+            console.log({ sportCompetitions })
             if (isIterableArray(sportCompetitions)) {
               const sportEvents = sportCompetitions
                 .map((comp) => comp.events)
